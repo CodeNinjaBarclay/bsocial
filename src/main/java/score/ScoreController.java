@@ -40,6 +40,10 @@ public class ScoreController {
 
         Profile profile = new Profile();
         profile.setName("ashish");
+        profile.setAge(20);
+        profile.setFriendsCount(5);
+        profile.setEventList(2);
+        profile.setTravelPlaces(2);
 
 
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {

@@ -6,7 +6,23 @@ global uk.co.barclaycard.bsocial.domain.Suggestions suggestions;
 
 rule "Facebook Score"
 when
-    Profile( name=="ashish")
+    Profile( age >= 10 && age < 18)
 then
-    suggestions.addScore("Facebook", "thumbsup");
+     suggestions.setSocialScore( 10 );
+     suggestions.addScore( "FB","age10less18" );
+
+end
+rule "Facebook age Score"
+when
+    Profile( age > 18 && age < 35)
+then
+    suggestions.setSocialScore( 50 );
+     suggestions.addScore( "FB","age18" );
+end
+rule "Facebook frinedcount Score"
+when
+    Profile( friendsCount > 0 && friendsCount < 10)
+then
+    suggestions.setSocialScore( suggestions.getSocialScore()+45 );
+     suggestions.addScore( "FB","age18friendsCount" );
 end

@@ -10,6 +10,16 @@ public class Suggestions {
 
     private Map<String, String> score = new HashMap<>();
 
+    public int getSocialScore() {
+        return socialScore;
+    }
+
+    public void setSocialScore(int socialScore) {
+        this.socialScore = socialScore;
+    }
+
+    private int socialScore;
+
     public Map addScore(String key, String value) {
         score.put(key, value);
         return score;
