@@ -13,6 +13,8 @@ public class Profile {
     private int eventList;
     private String feeds;
     private int travelPlaces;
+    private boolean verified;
+
     private int socialScore = 0;
 
     public int getSocialScore() {
@@ -70,5 +72,13 @@ public class Profile {
 
     public int getAge() {
         return age;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

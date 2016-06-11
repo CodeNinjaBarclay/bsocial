@@ -5,6 +5,9 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.twitter.api.ListOperations;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.UserList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,20 +17,20 @@ import uk.co.barclaycard.bsocial.domain.Suggestions;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
 public class ScoreController {
 
     private Facebook facebook;
+//    private Twitter twitter;
     private ConnectionRepository connectionRepository;
-
     private KieContainer kieContainer;
 
     @Inject
     public ScoreController(Facebook facebook, ConnectionRepository connectionRepository, KieContainer kieContainer) {
         this.facebook = facebook;
+//        this.twitter = twitter;
         this.connectionRepository = connectionRepository;
         this.kieContainer = kieContainer;
     }
@@ -39,22 +42,17 @@ public class ScoreController {
         }
 
         Profile profile = new Profile();
-        profile.setName("ashish");
-        profile.setAge(20);
-        profile.setFriendsCount(5);
-        profile.setEventList(2);
-        profile.setTravelPlaces(2);
-
 
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
             //return "redirect:/linkedin/connections";
         }
 
+//        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
+//            //return "redirect:/linkedin/connections";
+//        }
+
         model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
 
-        // Profile
-        AgeRange ageRange = facebook.userOperations().getUserProfile().getAgeRange();
-        facebook.userOperations().getUserProfile().getBirthday();
 
         // Operations
         PagedList<Post> feed = facebook.feedOperations().getFeed();
@@ -65,14 +63,20 @@ public class ScoreController {
         PagedList<Invitation> attendingEvents = facebook.eventOperations().getAttending();
 
 
-        for (Invitation invite : attendingEvents) {
-            for (String str : invite.getExtraData().keySet()) {
+//        for (Invitation invite : attendingEvents) {
+//            for (String str : invite.getExtraData().keySet()) {
+//
+//            }
+//        }
 
-            }
-        }
+//        PagedList<Reference> friendsList = facebook.friendOperations().getFriends();
 
-        PagedList<Reference> friendsList = facebook.friendOperations().getFriends();
+        profile.setVerified(facebook.userOperations().getUserProfile().isVerified());
+        profile.setName(facebook.userOperations().getUserProfile().getName());
+        profile.setFriendsCount(facebook.friendOperations().getFriends().getTotalCount());
 
+        profile.setEventList(2);
+        profile.setTravelPlaces(2);
 
         StatelessKieSession socialScoreSession = kieContainer.newStatelessKieSession();
         Suggestions suggestedScore = new Suggestions();
@@ -80,6 +84,13 @@ public class ScoreController {
         socialScoreSession.execute(profile);
 
         model.addAttribute("feed", feed);
+
+/*
+        ListOperations listOperations = twitter.listOperations();
+
+        int fritwitter.friendOperations().getFriendIds().size();
+*/
+
 
         return "hello";
     }
