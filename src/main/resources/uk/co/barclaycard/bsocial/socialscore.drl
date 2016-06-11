@@ -1,0 +1,12 @@
+package uk.co.barclaycard.bsocial
+
+import uk.co.barclaycard.bsocial.domain.Profile;
+
+global uk.co.barclaycard.bsocial.domain.Suggestions suggestions;
+
+rule "Facebook Score"
+when
+    Profile( name=="ashish")
+then
+    suggestions.addScore("Facebook", "thumbsup");
+end
