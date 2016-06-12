@@ -19,21 +19,12 @@
 		</div>
 		
 		<div id="content" layout:fragment="content">
-			<h3>Connected to Facebook</h3>
+			<h3>Daily Twitter Trends</h3>
 			
-			<form id="disconnect" method="post">
-				<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-				<div class="formInfo">
-					<p>
-						Spring Social Showcase is connected to your Facebook account.
-						Click the button if you wish to disconnect.
-					</p>		
-				</div>
-				<button type="submit">Disconnect</button>	
-				<input type="hidden" name="_method" value="delete" />
-			</form>
-			
-			<a th:href="@{/facebook}">View your Facebook profile</a>
-		</div>		
+			<span th:each="trend : ${trends.trends}">
+				<a href="@{'/twitter/search?query=' + ${trend.query}" th:text="${trend.name}">trend name</a><br/>
+			</span>
+		</div>
 	</body>
 </html>
+

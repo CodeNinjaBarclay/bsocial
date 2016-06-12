@@ -19,21 +19,20 @@
 		</div>
 		
 		<div id="content" layout:fragment="content">
-			<h3>Connected to Facebook</h3>
+			<h3>Connect to LinkedIn</h3>
 			
-			<form id="disconnect" method="post">
+			<form th:action="@{/connect/linkedin}" method="POST">
 				<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+				<input type="hidden" name="scope" value="r_basicprofile r_emailaddress r_network r_fullprofile rw_nus" />
 				<div class="formInfo">
 					<p>
-						Spring Social Showcase is connected to your Facebook account.
-						Click the button if you wish to disconnect.
-					</p>		
+						You haven't created any connections with LinkedIn yet. Click the button to connect Spring Social Showcase with your LinkedIn account. 
+						(You'll be redirected to LinkedIn where you'll be asked to authorize the connection.)
+					</p>
 				</div>
-				<button type="submit">Disconnect</button>	
-				<input type="hidden" name="_method" value="delete" />
+				<p><button type="submit">Connect with LinkedIn</button></p>
 			</form>
-			
-			<a th:href="@{/facebook}">View your Facebook profile</a>
 		</div>		
 	</body>
 </html>
+

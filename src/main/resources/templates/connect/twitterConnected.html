@@ -19,21 +19,20 @@
 		</div>
 		
 		<div id="content" layout:fragment="content">
-			<h3>Connected to Facebook</h3>
+			<h3>Connected to Twitter</h3>
 			
 			<form id="disconnect" method="post">
 				<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 				<div class="formInfo">
-					<p>
-						Spring Social Showcase is connected to your Facebook account.
-						Click the button if you wish to disconnect.
-					</p>		
+					<p>The Spring Social Showcase sample application is already connected to your Twitter account.
+						Click the button if you wish to disconnect.</p>
 				</div>
+			
 				<button type="submit">Disconnect</button>	
 				<input type="hidden" name="_method" value="delete" />
 			</form>
 			
-			<a th:href="@{/facebook}">View your Facebook profile</a>
-		</div>		
+			<p><a th:href="@{/twitter}">View your Twitter profile</a></p>
+		</div>
 	</body>
 </html>

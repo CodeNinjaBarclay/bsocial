@@ -5,9 +5,7 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.*;
 import org.springframework.social.linkedin.api.LinkedIn;
-import org.springframework.social.twitter.api.ListOperations;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.UserList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +21,14 @@ import java.util.List;
 public class ScoreController {
 
     private Facebook facebook;
-//    private Twitter twitter;
+    private Twitter twitter;
     private ConnectionRepository connectionRepository;
     private KieContainer kieContainer;
 
     @Inject
-    public ScoreController(Facebook facebook, ConnectionRepository connectionRepository, KieContainer kieContainer) {
+    public ScoreController(Facebook facebook, Twitter twitter, ConnectionRepository connectionRepository, KieContainer kieContainer) {
         this.facebook = facebook;
-//        this.twitter = twitter;
+        this.twitter = twitter;
         this.connectionRepository = connectionRepository;
         this.kieContainer = kieContainer;
     }
@@ -44,12 +42,12 @@ public class ScoreController {
         Profile profile = new Profile();
 
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
-            //return "redirect:/linkedin/connections";
+            return "redirect:/connect/linkedin";
         }
 
-//        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
-//            //return "redirect:/linkedin/connections";
-//        }
+        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
+            return "redirect:/connect/twitter";
+        }
 
         model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
 
@@ -84,7 +82,7 @@ public class ScoreController {
         socialScoreSession.execute(profile);
 
         model.addAttribute("feed", feed);
-
+        model.addAttribute("profile", twitter.userOperations().getUserProfile());
 /*
         ListOperations listOperations = twitter.listOperations();
 
